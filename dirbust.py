@@ -15,7 +15,7 @@ def main():
                         help='Print all response codes')
     parser.add_argument('-o', '--output', type=str, help='Output file path')
     args = parser.parse_args()
-    
+
     banner = Back.BLACK + Fore.RED + '''
     
 ██████╗░██╗░░░██╗██████╗░██╗██████╗░██████╗░██╗░░░██╗░██████╗████████╗███████╗██████╗░
