@@ -43,7 +43,10 @@ def main():
     possible_endpoints = []
     real_endpoints = []
     for i, word in enumerate(wordlist):
-        url = args.url + '/' + word
+        if args.url.endswith('/'):
+            url = args.url + word
+        else:
+            url = args.url + "/" + word
         response = requests.get(url)
         if response.status_code in [200, 201, 202, 203, 204, 205, 206, 207, 208, 226]:
             real_endpoints.append(url)

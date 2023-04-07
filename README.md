@@ -7,9 +7,6 @@
 <h3 align='center'>To-Do's</h3>
 <ul align='center'>
 <li align='center'>
-Add a check if user adds '/' to end of URL or not.
-</li>
-<li align='center'>
 Add feature for multiple appended wordlists
 </li>
 <li align='center'>
