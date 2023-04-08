@@ -16,7 +16,12 @@ def main():
     parser.add_argument('-o', '--output', type=str, help='Output file path')
     args = parser.parse_args()
 
-    banner = Back.BLACK + Fore.RED + '''
+    G = Fore.GREEN + Back.BLACK
+    Y = Fore.YELLOW + Back.BLACK
+    B = Fore.BLUE + Back.BLACK
+    R = Fore.RED + Back.BLACK
+
+    banner = R + '''
 █▀█ █▄█ █▀▄ █ █▀█ █▄▄ █░█ █▀ ▀█▀ █▀▀ █▀█
 █▀▀ ░█░ █▄▀ █ █▀▄ █▄█ █▄█ ▄█ ░█░ ██▄ █▀▄
     '''
@@ -27,17 +32,19 @@ def main():
     # Read wordlist file
     wordlist_path = os.path.abspath(args.wordlist)
     print(banner)
-    print(Back.BLACK + Fore.GREEN +
+    print(G +
           "S̅i̅m̅p̅l̅e̅ P̅y̅t̅h̅o̅n̅ D̅i̅r̅e̅c̅t̅o̅r̅y̅ B̅u̅s̅t̅i̅n̅g̅")
     print(github)
     with open(wordlist_path, 'r') as f:
-        print(Fore.GREEN + Back.BLACK + "Reading Wordlist...")
-        print(Back.BLACK + Fore.GREEN + "  ")
+        print(G + "Reading Wordlist...")
+        print(G + "  ")
         wordlist = f.read().splitlines()
-        print(Fore.GREEN + Back.BLACK + "𝟚𝟘𝟘 𝕊𝕥𝕒𝕥𝕦𝕤 𝔾𝕣𝕖𝕖𝕟")
-        print(Fore.YELLOW + Back.BLACK + "𝟛𝟘𝟘 𝕊𝕥𝕒𝕥𝕦𝕤 𝕐𝕖𝕝𝕝𝕠𝕨")
-        print(Fore.BLUE + Back.BLACK + "4̲0̲0̲ S̲t̲a̲t̲u̲s̲ B̲l̲u̲e̲")
-        print(Fore.RED + Back.BLACK + "5̶0̶0̶ S̶t̶a̶t̶u̶s̶ R̶e̶d̶")
+        print(G + "𝟚𝟘𝟘 𝕊𝕥𝕒𝕥𝕦𝕤 𝔾𝕣𝕖𝕖𝕟")
+        print(Y + "𝟛𝟘𝟘 𝕊𝕥𝕒𝕥𝕦𝕤 𝕐𝕖𝕝𝕝𝕠𝕨")
+        print(B + "4̲0̲0̲ S̲t̲a̲t̲u̲s̲ B̲l̲u̲e̲")
+        print(R + "5̶0̶0̶ S̶t̶a̶t̶u̶s̶ R̶e̶d̶")
+        print(G + '  ')
+        print(G + '  ')
 
     # Send requests
     possible_endpoints = []
@@ -51,15 +58,15 @@ def main():
         if response.status_code in [200, 201, 202, 203, 204, 205, 206, 207, 208, 226]:
             real_endpoints.append(url)
             print(
-                Fore.BLACK + Back.GREEN + '[+] 200 Status definite endpoint found \n line ({0}): {1}'.format(i+1, url))
+                G + '[+] 200 Status definite endpoint found \n line ({0}): {1}'.format(i+1, url))
         elif response.status_code in [301, 302, 303, 304, 307, 308]:
             possible_endpoints.append(url)
             print(
-                Back.YELLOW + Fore.BLACK + '[~] 300 Status possible endpoint found \n line ({0}): {1}'.format(i+1, url))
+                Y + '[~] 300 Status possible endpoint found \n line ({0}): {1}'.format(i+1, url))
         elif response.status_code in [401, 403]:
             possible_endpoints.append(url)
             print(
-                Fore.WHITE + Back.BLUE + '[~] 400 Status restricted endpoint found \n line ({0}): {1}'.format(i+1, url))
+                B + '[~] 400 Status restricted endpoint found \n line ({0}): {1}'.format(i+1, url))
         elif response.status_code in [400, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418, 421, 422, 423, 424, 426, 428, 429, 431, 451]:
             if args.verbose:
                 print(
@@ -76,7 +83,7 @@ def main():
             f.write('\n'.join(real_endpoints))
             f.write('\n\n[~] Possible endpoints:\n')
             f.write('\n'.join(possible_endpoints))
-            print(Fore.YELLOW +
+            print(Y +
                   '[*] Results written to output file: {0}'.format(args.output))
 
 
