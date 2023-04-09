@@ -20,6 +20,7 @@ def main():
     Y = Fore.YELLOW + Back.BLACK
     B = Fore.BLUE + Back.BLACK
     R = Fore.RED + Back.BLACK
+    C = Fore.CYAN + Back.BLACK
 
     banner = R + '''
 █▀█ █▄█ █▀▄ █ █▀█ █▄▄ █░█ █▀ ▀█▀ █▀▀ █▀█
@@ -35,6 +36,10 @@ def main():
     print(G +
           "S̅i̅m̅p̅l̅e̅ P̅y̅t̅h̅o̅n̅ D̅i̅r̅e̅c̅t̅o̅r̅y̅ B̅u̅s̅t̅i̅n̅g̅")
     print(github)
+    print(C + f"Wordlist: \n {args.wordlist}")
+    print(C + f"URL: \n {args.url}")
+    print(C + f"Output: \n {args.output}")
+    print(C +  f"Verbose: \n {args.verbose}")
     with open(wordlist_path, 'r') as f:
         print(G + "Reading Wordlist...")
         print(G + "  ")
