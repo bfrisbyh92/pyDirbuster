@@ -2,7 +2,7 @@
 
 <h3 align='center'>A simple directory busting tool written in Python</h3>
 
-![image](thumbnail.png)
+![image](readmeimg.png)
 
 <h2 align='center'>Install</h2>
 <li>pip install -r requirements.txt</li>
