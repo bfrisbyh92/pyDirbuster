@@ -12,4 +12,5 @@
 - If args not specified, add user inputs
 - Threading
 - Append Multiple Wordlists
+- Add default wordlist, if none specified run it
 
