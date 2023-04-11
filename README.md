@@ -4,15 +4,12 @@
 
 ![image](thumbnail.png)
 
-<h3 align='center'>To-Do's</h3>
-<ul align='center'>
-<li align='center'>
-Add feature for multiple appended wordlists
-</li>
-<li align='center'>
-Change the display to more of a ticker style that updates display when new URL's are added to array
-</li>
-<li align='center'>
-Fix the output when written to file
-</li>
-</ul>
+<h2 align='center'>Install</h2>
+<li>pip install -r requirements.txt</li>
+<li>python3 dirbust.py -u {URL} -w {wordlist} -o {Output} -v[optional] -ua[optional] </li>
+
+<h4 align='center'>To-Do</h4>
+- If args not specified, add user inputs
+- Threading
+- Append Multiple Wordlists
+

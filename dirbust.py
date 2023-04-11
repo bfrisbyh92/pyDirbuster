@@ -8,8 +8,7 @@ from user_agent import generate_user_agent
 def main():
     # Parse user input
     parser = argparse.ArgumentParser(description='Directory brute forcer')
-    parser.add_argument('-w', '--wordlist', type=str,
-                        required=True, help='Path to wordlist file')
+    parser.add_argument('-w', '--wordlist', type=str, help='Path to wordlist file')
     parser.add_argument('-u', '--url', type=str,
                         required=True, help='Target URL')
     parser.add_argument('-o', '--output', type=str, help='Output file path')
@@ -34,14 +33,20 @@ def main():
     github = '''
  ᴳⁱᵗʰᵘᵇ⠘ h̳t̳t̳p̳s̳:̳/̳/̳g̳i̳t̳h̳u̳b̳.̳c̳o̳m̳/̳b̳f̳r̳i̳s̳b̳y̳h̳9̳2̳
     '''
-
+    # Wordlist Checks
+    if args.wordlist:
+        wordlist = args.wordlist
+    else:
+        wordlist = input("No wordlist specified, Please enter wordlist location:  \n ")
+    print(wordlist)
     # Read wordlist file
-    wordlist_path = os.path.abspath(args.wordlist)
+    wordlist_path = os.path.abspath(wordlist)
+    
     print(R + banner)
     print(G + 
           "S̅i̅m̅p̅l̅e̅ P̅y̅t̅h̅o̅n̅ D̅i̅r̅e̅c̅t̅o̅r̅y̅ B̅u̅s̅t̅i̅n̅g̅")
     print(gh + github)
-    print(Fore.LIGHTWHITE_EX + f"Wordlist: \n {args.wordlist}")
+    print(Fore.LIGHTWHITE_EX + f"Wordlist: \n {wordlist}")
     print(Fore.LIGHTWHITE_EX +  f"URL: \n {args.url}")
     print(Fore.LIGHTWHITE_EX +  f"Output: \n {args.output}")
     print(Fore.LIGHTWHITE_EX +  f"Verbose: \n {args.verbose}")
