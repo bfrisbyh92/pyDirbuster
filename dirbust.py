@@ -10,8 +10,7 @@ def main():
     parser = argparse.ArgumentParser(description='Directory brute forcer')
     parser.add_argument('-w', '--wordlist', type=str,
                         help='Path to wordlist file')
-    parser.add_argument('-u', '--url', type=str,
-                        required=True, help='Target URL')
+    parser.add_argument('-u', '--url', type=str, help='Target URL')
     parser.add_argument('-o', '--output', type=str, help='Output file path')
     parser.add_argument('-v', '--verbose', action='store_true',
                         help='Print all response codes')
@@ -43,7 +42,6 @@ def main():
         wordlist = 'default_wordlist.txt'
     # Read wordlist file
     wordlist_path = os.path.abspath(wordlist)
-        
 
     print(R + banner)
     print(G +
@@ -71,7 +69,10 @@ def main():
     # Send requests
     possible_endpoints = []
     real_endpoints = []
+
     for i, word in enumerate(wordlist):
+        if not args.url:
+            args.url = input(B + "Enter URL:  \n")
         if args.url.endswith('/'):
             url = args.url + word
         else:
@@ -87,14 +88,14 @@ def main():
             real_endpoints.append(url)
             print(
                 G + '[✅] Definite endpoint found \n ' +
-                B + '[wordlist line {0}]:'.format(i+1) +
+                R + '[wordlist line {0}]:'.format(i+1) +
                 G + ' URL 👉 {1}'.format(i+1, url) +
                 Style.RESET_ALL)
         elif response.status_code in [300, 301, 302, 303, 307, 308, 401, 402, 403]:
             possible_endpoints.append(url)
             print(
                 B + '[🤔] Possible endpoint found \n ' +
-                G + '[wordlist line {0}]:'.format(i+1) +
+                R + '[wordlist line {0}]:'.format(i+1) +
                 B + ' URL 👉 {1}'.format(i+1, url) +
                 Style.RESET_ALL)
         elif response.status_code in [404]:
