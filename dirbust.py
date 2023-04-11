@@ -39,7 +39,7 @@ def main():
     if args.wordlist:
         wordlist = args.wordlist
     else:
-        wordlist = 'default_wordlist.txt'
+        wordlist = 'assets/default_wordlist.txt'
     # Read wordlist file
     wordlist_path = os.path.abspath(wordlist)
 
