@@ -9,8 +9,5 @@
 <li>python3 dirbust.py -u {URL} -w {wordlist} -o {Output} -v[optional] -ua[optional] </li>
 
 <h4 align='center'>To-Do</h4>
-- If args not specified, add user inputs
 - Threading
 - Append Multiple Wordlists
-- Add default wordlist, if none specified run it
-
