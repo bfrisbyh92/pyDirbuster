@@ -7,7 +7,7 @@ from user_agent import generate_user_agent
 
 def main():
     # Parse user input
-    parser = argparse.ArgumentParser(description='Directory brute forcer')
+    parser = argparse.ArgumentParser(description='PyDirbuster')
     parser.add_argument('-w', '--wordlist', type=str,
                         help='Path to wordlist file')
     parser.add_argument('-u', '--url', type=str, help='Target URL')
@@ -73,6 +73,7 @@ def main():
     for i, word in enumerate(wordlist):
         if not args.url:
             args.url = input(B + "Enter URL:  \n")
+            print(G + " ")
         if args.url.endswith('/'):
             url = args.url + word
         else:
