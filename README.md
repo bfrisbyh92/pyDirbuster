@@ -12,5 +12,4 @@
 ------------------------
 
 <h4 align='center'>To-Do</h4>
-- Threading
 - Append Multiple Wordlists
