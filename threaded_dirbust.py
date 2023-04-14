@@ -109,7 +109,6 @@ for i, word in enumerate(wordlist):
     if not args.url:
         args.url = input(B + "Enter URL:  \n")
         print(G + " ")
-
     if args.url.endswith('/'):
         url = args.url + word
     else:
@@ -118,7 +117,7 @@ for i, word in enumerate(wordlist):
     # If -ua arg specified, we randomize the User-Agent
     if args.useragent:
         headers = {'User-Agent': generate_user_agent()}
-        # print(headers)
+        # print(headers) to check user agent
         response = requests.get(url, headers=headers)
     else:
         response = requests.get(url)
@@ -137,12 +136,11 @@ if args.output:
     with open(args.output, 'w') as f:
         f.write(banner)
         f.write(github)
-        f.write(" ")
-        f.write(" ")
+        f.write("\n")
+        f.write("\n")
         f.write('[✅] Real endpoints:\n')
         f.write("\n")
         f.write('\n'.join(real_endpoints))
-        f.write("\n")
         f.write("\n")
         f.write('\n\n[🤔] Possible endpoints:\n')
         f.write("\n")

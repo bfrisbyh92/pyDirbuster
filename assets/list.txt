@@ -3,4 +3,6 @@ resume
 contact
 blog
 deez
-bigold
+projects
+bigol
+nutz
