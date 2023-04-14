@@ -60,46 +60,52 @@ with open(wordlist_path, 'r') as f:
     # Print the number of lines in the wordlist
     print("Wordlist size:  " + str(num_lines) + " lines")
     print(G + "  ")
-    print(G + "𝔻𝕖𝕗𝕚𝕟𝕚𝕥𝕖 𝔼𝕟𝕕𝕡𝕠𝕚𝕟𝕥𝕤 𝕚𝕟 𝔾𝕣𝕖𝕖𝕟")
-    print(B + "𝐏𝐨𝐬𝐬𝐢𝐛𝐥𝐞 𝐞𝐧𝐝𝐩𝐨𝐢𝐧𝐭 𝐢𝐧 𝐁𝐥𝐮𝐞")
-    print(R + "𝑫𝒐𝒆𝒔 𝒏𝒐𝒕 𝒆𝒙𝒊𝒔𝒕 𝒊𝒏 𝑹𝒆𝒅")
-    print(P + "𝔸𝕟𝕪 𝕖𝕣𝕣𝕠𝕣 𝕔𝕠𝕕𝕖 𝕚𝕟 ℙ𝕚𝕟𝕜")
+    print(G + "𝟐𝟎𝟎 𝐄𝐧𝐝𝐩𝐨𝐢𝐧𝐭𝐬 𝐢𝐧 𝐆𝐫𝐞𝐞𝐧")
+    print(B + "ℚ𝕦𝕖𝕤𝕥𝕚𝕠𝕟𝕒𝕓𝕝𝕖 𝕖𝕟𝕕𝕡𝕠𝕚𝕟𝕥𝕤 𝕚𝕟 𝔹𝕝𝕦𝕖")
+    print(Y + "Rᴇᴅɪʀᴇᴄᴛ Eɴᴅᴘᴏɪɴᴛs ɪɴ Yᴇʟʟᴏᴡ")
+    print(R + "𝓥𝓮𝓻𝓫𝓸𝓼𝓮 𝓸𝓹𝓽𝓲𝓸𝓷𝓼 𝓲𝓷 𝓡𝓮𝓭")
     print(G + '  ')
     print(G + '  ')
 
 real_endpoints = []
-possible_endpoints = []
+failed_endpoints = []
+redirect_endpoints = []
+questionable_endpoints = []
 
 
 def send_request(url, wordlist_line):
     response = requests.get(url)
-    if response.status_code in [200, 201, 203, 204, 205, 206, 208, 226]:
-        real_endpoints.append(url)
+    if response.ok:
+        real_endpoints.append(
+            f"Endpoint: {url} \n Status Code: {response.status_code} \n Wordlist Line {wordlist_line} \n")
         print(
-            G + '[✅] Definite endpoint found \n ' +
-            R + '[wordlist line {0}]:'.format(wordlist_line) +
-            G + ' URL 👉 {1}'.format(wordlist_line, url) +
+            G + '[✅] Definite endpoint found: ' + ' URL 👉 {1}'.format(wordlist_line, url) + '\n' +
+            f'  Status Code: {response.status_code}' + '   [wordlist line {0}]:'.format(wordlist_line) +
             Style.RESET_ALL)
-    elif response.status_code in [300, 301, 302, 303, 307, 308, 401, 402, 403]:
-        possible_endpoints.append(url)
+    elif response.status_code in [201, 204, 202, 206, 301, 302, 304, 400, 401, 403, 407, 423, 429]:
+        questionable_endpoints.append(
+            f"Endpoint: {url} \n Status Code: {response.status_code} \n Wordlist Line {wordlist_line} \n")
         print(
-            B + '[🤔] Possible endpoint found \n ' +
-            R + '[wordlist line {0}]:'.format(wordlist_line) +
-            B + ' URL 👉 {1}'.format(wordlist_line, url) +
+            B + '[🏴‍☠️] Questionable endpoint:' + ' URL 👉 {1}'.format(wordlist_line, url) + '\n' + 
+            f'  Status Code: {response.status_code}' +
+            '   [wordlist line {0}]:'.format(wordlist_line) +
             Style.RESET_ALL)
-    elif response.status_code in [404]:
+    elif response.is_permanent_redirect:
+        redirect_endpoints.append(
+            f"Endpoint: {url} \n Status Code: {response.status_code} \n Wordlist Line {wordlist_line} \n")
+        print(
+            Y + '[X] Redirect Endpoint:' + ' URL 👉 {1}'.format(wordlist_line, url) + '\n' +
+            B + f'  Status Code: {response.status_code}' +
+            R + '   [wordlist line {0}]:'.format(wordlist_line) +
+            Style.RESET_ALL)
+    elif not response.ok:
         if args.verbose:
+            failed_endpoints.append(
+                f"Endpoint: {url} \n Status Code: {response.status_code} \n  Wordlist Line {wordlist_line} \n")
             print(
-                R + '[🚫] 404 Response, Page does not exist \n ' +
+                R + '[🚫] Failed endpoint found \n ' +
                 B + '[wordlist line {0}]:'.format(wordlist_line) +
-                R + ' URL 👉 {1}'.format(wordlist_line, url) +
-                Style.RESET_ALL)
-    elif response.status_code in [400, 405, 406, 408, 410, 411, 412, 413, 414, 415, 416, 417, 500, 501, 502, 503, 504, 505, 506, 507, 508, 510, 511, 599]:
-        if args.verbose:
-            print(
-                P + '[🏴‍☠️] Non-existent or error \n ' +
-                B + '[wordlist line {0}]:'.format(wordlist_line) +
-                P + ' URL 👉 {1}'.format(wordlist_line, url) +
+                R + ' URL 👉 {1}'.format(wordlist_line, url) + '\n' + R + f'  Status Code: {response.status_code}' +
                 Style.RESET_ALL)
 
 
@@ -138,12 +144,20 @@ if args.output:
         f.write(github)
         f.write("\n")
         f.write("\n")
-        f.write('[✅] Real endpoints:\n')
+        f.write('[✅] Real Endpoints:\n')
         f.write("\n")
         f.write('\n'.join(real_endpoints))
         f.write("\n")
-        f.write('\n\n[🤔] Possible endpoints:\n')
+        f.write('[✅] Questionable Endpoints:\n')
         f.write("\n")
-        f.write('\n'.join(possible_endpoints))
+        f.write('\n'.join(questionable_endpoints))
+        f.write("\n")
+        f.write('\n\n[🤔] Redirected Endpoints:\n')
+        f.write("\n")
+        f.write('\n'.join(redirect_endpoints))
+        f.write("\n")
+        f.write('\n\n[🤔] Failed Endpoints:\n')
+        f.write("\n")
+        f.write('\n'.join(failed_endpoints))
         f.write("\n")
         print(Y + f'[✍] Results written to output file: {args.output}')
