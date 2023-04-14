@@ -73,39 +73,40 @@ redirect_endpoints = []
 questionable_endpoints = []
 
 
-def send_request(url, wordlist_line):
+def send_request(url, i):
     response = requests.get(url)
     if response.ok:
         real_endpoints.append(
-            f"Endpoint: {url} \n Status Code: {response.status_code} \n Wordlist Line {wordlist_line} \n")
+            f"Endpoint: {url} \n Status Code: {response.status_code} \n Wordlist Line {i} \n")
         print(
-            G + '[✅] Definite endpoint found: ' + ' URL 👉 {1}'.format(wordlist_line, url) + '\n' +
-            f'  Status Code: {response.status_code}' + '   [wordlist line {0}]:'.format(wordlist_line) +
+            G + '[✅] Definite endpoint found: ' + ' URL 👉 {1}'.format(i, url) + '\n' +
+            f'  Status Code: {response.status_code}' + '   [wordlist line {0}]:'.format(i) +
             Style.RESET_ALL)
     elif response.status_code in [201, 204, 202, 206, 301, 302, 304, 400, 401, 403, 407, 423, 429]:
         questionable_endpoints.append(
-            f"Endpoint: {url} \n Status Code: {response.status_code} \n Wordlist Line {wordlist_line} \n")
+            f"Endpoint: {url} \n Status Code: {response.status_code} \n Wordlist Line {i} \n")
         print(
-            B + '[🏴‍☠️] Questionable endpoint:' + ' URL 👉 {1}'.format(wordlist_line, url) + '\n' + 
+            B + '[🤔] Questionable endpoint:' + ' URL 👉 {1}'.format(i, url) + '\n' +
             f'  Status Code: {response.status_code}' +
-            '   [wordlist line {0}]:'.format(wordlist_line) +
+            '   [wordlist line {0}]:'.format(i) +
             Style.RESET_ALL)
     elif response.is_permanent_redirect:
         redirect_endpoints.append(
-            f"Endpoint: {url} \n Status Code: {response.status_code} \n Wordlist Line {wordlist_line} \n")
+            f"Endpoint: {url} \n Status Code: {response.status_code} \n Wordlist Line {i} \n")
         print(
-            Y + '[X] Redirect Endpoint:' + ' URL 👉 {1}'.format(wordlist_line, url) + '\n' +
-            B + f'  Status Code: {response.status_code}' +
-            R + '   [wordlist line {0}]:'.format(wordlist_line) +
+            Y + '[🏴‍☠️] Redirect Endpoint:' + ' URL 👉 {1}'.format(i, url) + '\n' +
+            f'  Status Code: {response.status_code}' +
+            '   [wordlist line {0}]:'.format(i) +
             Style.RESET_ALL)
     elif not response.ok:
         if args.verbose:
             failed_endpoints.append(
-                f"Endpoint: {url} \n Status Code: {response.status_code} \n  Wordlist Line {wordlist_line} \n")
+                f"Endpoint: {url} \n Status Code: {response.status_code} \n  Wordlist Line {i} \n")
             print(
-                R + '[🚫] Failed endpoint found \n ' +
-                B + '[wordlist line {0}]:'.format(wordlist_line) +
-                R + ' URL 👉 {1}'.format(wordlist_line, url) + '\n' + R + f'  Status Code: {response.status_code}' +
+                R + '[🚫] Failed endpoint found:  ' +
+                    ' URL 👉 {1}'.format(i, url) + '\n'
+                f'  Status Code: {response.status_code}' +
+                '   [wordlist line {0}]:'.format(i) +
                 Style.RESET_ALL)
 
 
@@ -137,7 +138,7 @@ for i, word in enumerate(wordlist):
 for t in threads:
     t.join()
 
-# Write results to output file
+    # Write results to output file
 if args.output:
     with open(args.output, 'w') as f:
         f.write(banner)
@@ -148,16 +149,18 @@ if args.output:
         f.write("\n")
         f.write('\n'.join(real_endpoints))
         f.write("\n")
-        f.write('[✅] Questionable Endpoints:\n')
+        f.write('[🤔] Questionable Endpoints:\n')
         f.write("\n")
         f.write('\n'.join(questionable_endpoints))
         f.write("\n")
-        f.write('\n\n[🤔] Redirected Endpoints:\n')
-        f.write("\n")
-        f.write('\n'.join(redirect_endpoints))
-        f.write("\n")
-        f.write('\n\n[🤔] Failed Endpoints:\n')
-        f.write("\n")
-        f.write('\n'.join(failed_endpoints))
-        f.write("\n")
+        if redirect_endpoints:
+            f.write('\n\n[🏴‍☠️] Redirected Endpoints:\n')
+            f.write("\n")
+            f.write('\n'.join(redirect_endpoints))
+            f.write("\n")
+        if args.verbose:
+            f.write('\n\n[X] Failed Endpoints:\n')
+            f.write("\n")
+            f.write('\n'.join(failed_endpoints))
+            f.write("\n")
         print(Y + f'[✍] Results written to output file: {args.output}')
