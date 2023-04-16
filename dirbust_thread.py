@@ -73,8 +73,8 @@ redirect_endpoints = []
 questionable_endpoints = []
 
 
-def send_request(url, i):
-    response = requests.get(url)
+def send_request(url, i, headers):
+    response = requests.get(url, headers=headers)
     if response.ok:
         real_endpoints.append(
             f"Endpoint: {url} \n Status Code: {response.status_code} \n Wordlist Line {i} \n")
@@ -124,13 +124,10 @@ for i, word in enumerate(wordlist):
     # If -ua arg specified, we randomize the User-Agent
     if args.useragent:
         headers = {'User-Agent': generate_user_agent()}
-        # print(headers) to check user agent
-        response = requests.get(url, headers=headers)
-    else:
-        response = requests.get(url)
+
 
     # Create a new thread for each request and start it
-    t = threading.Thread(target=send_request, args=(url, i+1))
+    t = threading.Thread(target=send_request, args=(url, i+1, headers))
     t.start()
     threads.append(t)
 

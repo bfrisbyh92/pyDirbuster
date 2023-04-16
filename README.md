@@ -14,3 +14,4 @@
 <h4 align='center'>To-Do</h4>
 - Append Multiple Wordlists
 - Specify number of threads, passed as parsed argument
+- Add Crawling
